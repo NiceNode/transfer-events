@@ -1,0 +1,24 @@
+{
+  "name": "transfer-events",
+  "version": "1.0.0",
+  "description": "transfers events from mixpanel to longterm storage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/NiceNode/transfer-events.git"
+  },
+  "author": "jgresham",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NiceNode/transfer-events/issues"
+  },
+  "homepage": "https://github.com/NiceNode/transfer-events#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "ndjson": "^2.0.0",
+    "node-fetch": "^2.7.0"
+  }
+}
