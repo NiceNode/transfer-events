@@ -4,6 +4,8 @@
   "description": "transfers events from mixpanel to longterm storage",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,8 +19,26 @@
   },
   "homepage": "https://github.com/NiceNode/transfer-events#readme",
   "dependencies": {
+    "@upstash/redis": "^1.28.2",
     "dotenv": "^16.3.1",
     "ndjson": "^2.0.0",
     "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "eslint": "^8.56.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^3.2.4",
+    "tslint": "^6.1.3",
+    "typescript": "^5.3.3"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
   }
 }
