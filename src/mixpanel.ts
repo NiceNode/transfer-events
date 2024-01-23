@@ -47,19 +47,28 @@ const options = {
   },
 }
 
-const userOpenApps = {}
-const printResults = (): void => {
-  console.log(
-    `num of distinct user that opened app at least once.... userOpenApps: ${Object.keys(userOpenApps).length}`,
-  )
-  console.log('userOpenApps: ', userOpenApps)
-
-  // console.log(`node counts.... ethereum: ${ethereumNodeCount}, farcaster: ${farcasterNodeCount}, other: ${otherNodeCount},`)
-  // console.log(`allNodes: `, allNodes)
+export interface NiceNodeContext {
+  arch: string
+  freeMemory: number
+  niceNodeVersion: string
+  platform: 'win32' | 'macOS' | 'linux'
+  platformRelease: string
+  totalMemory: number
 }
-const mpObjects = []
+export interface MixpanelEvent {
+  event: string
+  properties: {
+    time: number
+    distinct_id: string
+    context?: NiceNodeContext
+    eventData?: any
+    [key: string]: any
+  }
+}
 
-export const processData = async (): Promise<void> => {
+export const processData = async (
+  onReceiveEvent: (mixPanelEvent: MixpanelEvent) => void,
+): Promise<void> => {
   try {
     const res = await fetch(fullUrl, options)
     console.log('res: ', res)
@@ -75,13 +84,12 @@ export const processData = async (): Promise<void> => {
     let objCount = 0
     // Handling each parsed object
     stream.on('data', (obj) => {
-      console.log('on data', obj)
       // Mp's event param doesn't seem to work, so
       // we filter only for the objects we want here
-      if (events.includes(obj.event)) {
-        mpObjects.push(obj)
-        objCount++
-      }
+      //   if (events.includes(obj.event)) {
+      onReceiveEvent(obj)
+      objCount++
+      //   }
     })
 
     // Handling any errors
@@ -93,9 +101,6 @@ export const processData = async (): Promise<void> => {
     stream.on('end', () => {
       console.log('Finished parsing all JSONL objects.')
       console.log('obj count: ', objCount)
-
-      //   writeDateToCSV()
-      printResults()
     })
 
     // Write the JSONL string to the stream

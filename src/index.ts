@@ -1,5 +1,5 @@
 import RedisClient from './RedisClient'
-import { processData } from './mixpanel'
+import { type MixpanelEvent, processData } from './mixpanel'
 
 console.log('Hello from TypeScript and Node.js!')
 
@@ -11,4 +11,13 @@ const test = async () => {
 }
 void test()
 
-void processData()
+const transferAnEvent = (event: MixpanelEvent): void => {
+  // input is mixpanel event
+  console.log('transferAnEvent: ', event)
+  // parses it
+  // saves to redis
+  // adds to day list
+  // returns success or not
+}
+
+void processData(transferAnEvent)

@@ -26,6 +26,11 @@ class RedisClient {
     })
   }
 
+  /**
+   * get a value for a key
+   * @param key
+   * @returns
+   */
   async get(key: string): Promise<string | null> {
     try {
       return await this.client.get(key)
@@ -35,9 +40,29 @@ class RedisClient {
     }
   }
 
+  /**
+   * set a value for a key
+   * @param key
+   * @returns
+   */
   async set(key: string, value: string): Promise<string | null> {
     try {
       return await this.client.set(key, value)
+    } catch (error) {
+      console.error(`Error setting key ${key}:`, error)
+      throw error
+    }
+  }
+
+  /**
+   * create a list with initial values
+   * @param key
+   * @param values initial list values
+   * @returns length of the list
+   */
+  async createList(key: string, values?: string[]): Promise<number | null> {
+    try {
+      return await this.client.lpush(key, values)
     } catch (error) {
       console.error(`Error setting key ${key}:`, error)
       throw error
