@@ -55,14 +55,14 @@ class RedisClient {
   }
 
   /**
-   * create a list with initial values
+   * create or add to a set the values
    * @param key
-   * @param values initial list values
-   * @returns length of the list
+   * @param values new values to add to the set
+   * @returns number of values newly added to the set
    */
-  async createList(key: string, values?: string[]): Promise<number | null> {
+  async addToSet(key: string, ...values: string): Promise<number | null> {
     try {
-      return await this.client.lpush(key, values)
+      return await this.client.sadd(key, values)
     } catch (error) {
       console.error(`Error setting key ${key}:`, error)
       throw error

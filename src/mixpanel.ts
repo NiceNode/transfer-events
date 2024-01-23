@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/naming-convention */
 import ndjson from 'ndjson'
@@ -56,10 +57,25 @@ export interface NiceNodeContext {
   totalMemory: number
 }
 export interface MixpanelEvent {
-  event: string
+  event:
+    | 'OpenApp'
+    | 'AddNodePackage'
+    | 'DailyUserReport'
+    | 'ErrorInstallPodman'
+    | '$mp_web_page_view'
+    | string
   properties: {
+    /**
+     * utc timestamp in seconds
+     */
     time: number
     distinct_id: string
+    $city: string
+    $region: string
+    $os: string
+    mp_country_code: string
+    $device_id: string
+    $user_id: string
     context?: NiceNodeContext
     eventData?: any
     [key: string]: any
@@ -67,16 +83,11 @@ export interface MixpanelEvent {
 }
 
 export const processData = async (
-  onReceiveEvent: (mixPanelEvent: MixpanelEvent) => void,
+  onReceiveEvent: (mixPanelEvent: MixpanelEvent) => Promise<void>,
 ): Promise<void> => {
   try {
     const res = await fetch(fullUrl, options)
-    console.log('res: ', res)
     const body = await res.text()
-
-    console.log(body)
-    // const resJson = JSON.parse(body);
-    // console.log(resJson)
 
     // Create a stream from the string
     const stream = ndjson.parse()
@@ -89,7 +100,6 @@ export const processData = async (
       //   if (events.includes(obj.event)) {
       onReceiveEvent(obj)
       objCount++
-      //   }
     })
 
     // Handling any errors
