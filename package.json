@@ -27,6 +27,7 @@
     "node-fetch": "^2.7.0"
   },
   "devDependencies": {
+    "@types/ndjson": "^2.0.4",
     "@types/node": "^20.11.5",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",

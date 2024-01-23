@@ -1,4 +1,5 @@
 import RedisClient from './RedisClient'
+import { processData } from './mixpanel'
 
 console.log('Hello from TypeScript and Node.js!')
 
@@ -9,3 +10,5 @@ const test = async () => {
   console.log('numActiveNodes: ', output)
 }
 void test()
+
+void processData()
