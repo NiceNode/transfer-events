@@ -12,6 +12,7 @@ UPSTASH_REDIS_REST_URL=""
 UPSTASH_REDIS_REST_TOKEN=""
 ```
 
+Modify `from_date` and `to_date` in `src/mixpanel.ts` to change days to run this for
 With node and npm installed, run
 `npm install` then `npm run watchIndex` (careful this will re-run on any file save)
 

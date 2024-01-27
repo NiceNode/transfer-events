@@ -22,7 +22,7 @@ let transfers = 0
 const transferAnEvent = async (event: MixpanelEvent): Promise<void> => {
   // save event to redis
   const redisEventId = `${eventPrefix}${event.properties.$insert_id}`
-  await redisClient.set(redisEventId, JSON.stringify(event))
+  await redisClient.client.json.set(redisEventId, '$', event)
 
   // add event to day set
   const yyyyMMddString = format(event.properties.time * 1000, 'yyyy-MM-dd')

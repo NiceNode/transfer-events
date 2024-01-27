@@ -2,7 +2,7 @@ import { Redis } from '@upstash/redis'
 import 'dotenv/config'
 
 class RedisClient {
-  private readonly client: Redis
+  public client: Redis
 
   constructor() {
     // Replace these with your Upstash Redis connection details
