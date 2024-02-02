@@ -1,11 +1,11 @@
 import { format } from 'date-fns'
-import RedisClient from './RedisClient'
+import { eventsRedisClient } from './RedisClient'
 import { type MixpanelEvent, processData } from './mixpanel'
 
 console.log('Hello from TypeScript and Node.js!')
 console.log(`My timezone is: ${process.env.TZ}`)
 
-const redisClient = new RedisClient()
+const redisClient = eventsRedisClient
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 // const test = async () => {
 //   const output = await redisClient.get('numActiveNodes')

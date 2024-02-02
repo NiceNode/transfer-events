@@ -1,24 +1,24 @@
 import { Redis } from '@upstash/redis'
 import 'dotenv/config'
 
+export interface constructorArgs {
+  initRedisUrl?: string
+  initRedisToken?: string
+}
+
 class RedisClient {
   public client: Redis
 
-  constructor() {
-    // Replace these with your Upstash Redis connection details
-    if (
-      process.env.UPSTASH_REDIS_REST_URL === undefined ||
-      process.env.UPSTASH_REDIS_REST_TOKEN === undefined
-    ) {
-      throw new Error(
-        'env vars UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set.',
-      )
+  constructor({
+    initRedisUrl,
+    initRedisToken,
+  }: constructorArgs) {
+    const redisUrl = initRedisUrl ?? process.env.UPSTASH_REDIS_REST_URL
+    const redisPassword = initRedisToken ?? process.env.UPSTASH_REDIS_REST_TOKEN
+
+    if (redisUrl === undefined || redisPassword === undefined) {
+      throw new Error('initRedisUrl or initRedisToken is undefined')
     }
-    // } else {
-    //   console.log(process.env.UPSTASH_REDIS_REST_URL + " : " + process.env.UPSTASH_REDIS_REST_TOKEN);
-    // }
-    const redisUrl: string = process.env.UPSTASH_REDIS_REST_URL
-    const redisPassword: string = process.env.UPSTASH_REDIS_REST_TOKEN
 
     this.client = new Redis({
       url: redisUrl,
@@ -69,5 +69,17 @@ class RedisClient {
     }
   }
 }
+
+let eventsRedisUrl = process.env.DEV_UPSTASH_REDIS_REST_URL
+let eventsRedisToken = process.env.DEV_UPSTASH_REDIS_REST_TOKEN
+if (process.env.NN_ENV === 'production') {
+  eventsRedisUrl = process.env.PROD_UPSTASH_REDIS_REST_URL
+  eventsRedisToken = process.env.PROD_UPSTASH_REDIS_REST_TOKEN
+}
+
+export const eventsRedisClient = new RedisClient({
+  initRedisUrl: eventsRedisUrl,
+  initRedisToken: eventsRedisToken,
+})
 
 export default RedisClient

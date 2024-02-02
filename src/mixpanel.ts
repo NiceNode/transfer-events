@@ -20,7 +20,7 @@ const baseUrl = 'https://data-eu.mixpanel.com/api/2.0/export'
 // const from_date = '2023-11-25'
 // const to_date = '2023-11-27'
 const from_date = '2024-01-20'
-const to_date = '2024-01-26'
+const to_date = '2024-02-01'
 const queryParams = `?project_id=${project_id}&from_date=${from_date}&to_date=${to_date}`
 const fullUrl = baseUrl + queryParams
 
