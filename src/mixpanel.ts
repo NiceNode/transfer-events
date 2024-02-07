@@ -19,8 +19,8 @@ const baseUrl = 'https://data-eu.mixpanel.com/api/2.0/export'
 // const from_date = '2023-01-01';
 // const from_date = '2023-11-25'
 // const to_date = '2023-11-27'
-const from_date = '2024-01-20'
-const to_date = '2024-02-01'
+const from_date = '2024-01-06'
+const to_date = '2024-01-25'
 const queryParams = `?project_id=${project_id}&from_date=${from_date}&to_date=${to_date}`
 const fullUrl = baseUrl + queryParams
 
@@ -64,13 +64,13 @@ export interface NiceNodeContext {
 export interface MixpanelEvent {
   [someKey: string]: unknown
   event:
-    | 'OpenApp'
-    | 'AddNodePackage'
-    | 'DailyUserReport'
-    | 'UserCheckForUpdateNN'
-    | 'ErrorInstallPodman'
-    | '$mp_web_page_view'
-    | string
+  | 'OpenApp'
+  | 'AddNodePackage'
+  | 'DailyUserReport'
+  | 'UserCheckForUpdateNN'
+  | 'ErrorInstallPodman'
+  | '$mp_web_page_view'
+  | string
   properties: {
     /**
      * unique event identifier
