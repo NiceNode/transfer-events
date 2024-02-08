@@ -5,11 +5,17 @@ Transfers events from mixpanel to a redis instance. This is intended to be able 
 create a .env file or set env vars:
 
 ```
+TZ=UTC
+PROD_UPSTASH_REDIS_REST_URL="<prod-url>"
+PROD_UPSTASH_REDIS_REST_TOKEN="<prod-token>"
 MP_SA_USERNAME=<mixpanel-service-account-name>
 MP_SA_SECRET=<mixpanel-service-account-secrete>
 MP_PROJECT_ID=<mixpanel-project-id>
-UPSTASH_REDIS_REST_URL=""
-UPSTASH_REDIS_REST_TOKEN=""
+
+# Dev env testing
+# See `synthesize-events` readme for more details
+DEV_UPSTASH_REDIS_REST_URL="http://localhost:8080"
+DEV_UPSTASH_REDIS_REST_TOKEN="dummy_token"
 ```
 
 Modify `from_date` and `to_date` in `src/mixpanel.ts` to change days to run this for
@@ -24,3 +30,12 @@ Additionally, all `event-id`'s for a particular day (UTC day) will be saved in a
 # Troubleshooting
 
 Be careful with timezones. Mixpanel likely uses local timezones, but we want to use UTC timezones for all dates.
+
+# Run with cron job
+Use `crontab -e` to edit the user's cron jobs.
+
+To run it once a day at a specific time try something like:
+```
+50 14 * * * cd /home/johns/dev/transfer-events && /usr/bin/npm run runProd >> /home/johns/cronoutput.txt 2>&1
+```
+`which npm` to determine npm path (path isn't always setup with crontab)

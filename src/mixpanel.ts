@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/naming-convention */
 import ndjson from 'ndjson'
+import { getDayBeforeYesterdayYyyyMmDd, getTodayYyyyMmDd } from './util'
 
 const username = process.env.MP_SA_USERNAME
 const secret = process.env.MP_SA_SECRET
@@ -16,11 +17,10 @@ if (username == null || secret == null || project_id == null) {
 const baseUrl = 'https://data-eu.mixpanel.com/api/2.0/export'
 
 // yyyy-mm-dd (no later than today)
-// const from_date = '2023-01-01';
-// const from_date = '2023-11-25'
-// const to_date = '2023-11-27'
-const from_date = '2024-01-06'
-const to_date = '2024-01-25'
+// const from_date = '2024-02-05'
+// const to_date = '2024-02-07'
+const from_date = getDayBeforeYesterdayYyyyMmDd()
+const to_date = getTodayYyyyMmDd()
 const queryParams = `?project_id=${project_id}&from_date=${from_date}&to_date=${to_date}`
 const fullUrl = baseUrl + queryParams
 
