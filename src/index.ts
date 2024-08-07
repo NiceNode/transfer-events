@@ -1,11 +1,11 @@
-import { format } from 'date-fns'
-import { eventsRedisClient } from './RedisClient'
-import { type MixpanelEvent, processData } from './mixpanel'
+import { format } from "date-fns";
+import { eventsRedisClient } from "./RedisClient";
+import { type MixpanelEvent, processData } from "./mixpanel";
 
-console.log('Hello from TypeScript and Node.js!')
-console.log(`My timezone is: ${process.env.TZ}`)
+console.log("Hello from TypeScript and Node.js!");
+console.log(`My timezone is: ${process.env.TZ}`);
 
-const redisClient = eventsRedisClient
+const redisClient = eventsRedisClient;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 // const test = async () => {
 //   const output = await redisClient.get('numActiveNodes')
@@ -13,24 +13,24 @@ const redisClient = eventsRedisClient
 // }
 // void test()
 
-const eventPrefix = 'event::'
-const eventsByDayPrefixWithoutDate = 'eventsByDay'
+const eventPrefix = "event::";
+const eventsByDayPrefixWithoutDate = "eventsByDay";
 const makeAEventsByDayPrefix = (yyyyMMddString: string): string =>
-  `${eventsByDayPrefixWithoutDate}::${yyyyMMddString}`
+	`${eventsByDayPrefixWithoutDate}::${yyyyMMddString}`;
 
-let transfers = 0
+let transfers = 0;
 const transferAnEvent = async (event: MixpanelEvent): Promise<void> => {
-  // save event to redis
-  const redisEventId = `${eventPrefix}${event.properties.$insert_id}`
-  await redisClient.client.json.set(redisEventId, '$', event)
+	// save event to redis
+	const redisEventId = `${eventPrefix}${event.properties.$insert_id}`;
+	await redisClient.client.json.set(redisEventId, "$", event);
 
-  // add event to day set
-  const yyyyMMddString = format(event.properties.time * 1000, 'yyyy-MM-dd')
-  const eventsByDayPrefix = makeAEventsByDayPrefix(yyyyMMddString)
-  await redisClient.addToSet(eventsByDayPrefix, redisEventId)
+	// add event to day set
+	const yyyyMMddString = format(event.properties.time * 1000, "yyyy-MM-dd");
+	const eventsByDayPrefix = makeAEventsByDayPrefix(yyyyMMddString);
+	await redisClient.addToSet(eventsByDayPrefix, redisEventId);
 
-  transfers++
-  console.log('transfers: ', transfers)
-}
+	transfers++;
+	console.log("transfers: ", transfers);
+};
 
-void processData(transferAnEvent)
+void processData(transferAnEvent);
