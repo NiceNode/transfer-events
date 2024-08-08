@@ -17,10 +17,10 @@ if (username == null || secret == null || project_id == null) {
 const baseUrl = "https://data-eu.mixpanel.com/api/2.0/export";
 
 // yyyy-mm-dd (no later than today)
-const from_date = "2024-08-05";
-const to_date = "2024-08-07";
-// const from_date = getDayBeforeYesterdayYyyyMmDd()
-// const to_date = getTodayYyyyMmDd()
+// const from_date = "2024-08-05";
+// const to_date = "2024-08-07";
+const from_date = getDayBeforeYesterdayYyyyMmDd();
+const to_date = getTodayYyyyMmDd();
 const queryParams = `?project_id=${project_id}&from_date=${from_date}&to_date=${to_date}`;
 const fullUrl = baseUrl + queryParams;
 
